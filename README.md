@@ -3,8 +3,6 @@
 Vue 微服务架构
 
 <br/>
-<br/>
-<br/>
 
 ## vue-cli 2.9.6 upgrade webpack 4 the config
 
@@ -18,7 +16,7 @@ npm i -D webpack-cli
 npm i -D extract-text-webpack-plugin@next
 npm i -D html-webpack-plugin@next
 npm i -D vue-loader@15.6.1
-npm install eslint-loader@2.1.1
+npm i -D eslint-loader@2.1.1
 
 ```
 
