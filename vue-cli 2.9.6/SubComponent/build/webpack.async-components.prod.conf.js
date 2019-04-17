@@ -3,6 +3,7 @@ const path = require('path');
 const utils = require('./utils');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -40,11 +41,11 @@ module.exports = {
     ]
   },
   entry: {
-    componentA: resolve('/src/views/component-a.vue'),
+    HelloWorld: resolve('/src/components/HelloWorld.vue'),
     // path: resolve('/src/HelloWorld.vue'), // components.async
   },
   output: {
-    path: resolve('/dist/'),
+    path: resolve('/static/'),
     filename: 'index.js',
   },
   resolve: {
@@ -75,6 +76,10 @@ module.exports = {
             image: 'xlink:href'
           }
         }
+      },
+      {
+        test: /\.css$/,
+        loader: 'css-loader',
       },
       {
         test: /\.js$/,
@@ -122,6 +127,7 @@ module.exports = {
       cssProcessorOptions: {
         safe: true
       }
-    })
+    }),
+    new VueLoaderPlugin()
   ]
 };
