@@ -2,14 +2,46 @@ const webpack = require('webpack');
 const path = require('path');
 const utils = require('./utils');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {  // 抽离自己写的公共代码
+          chunks: "async",  // async针对异步加载的chunk做切割，initial针对初始chunk，all针对所有chunk。
+          name: "common", // 打包后的文件名，任意命名
+          minChunks: 2,//最小引用2次
+          minSize: 30000 // 只要超出30000字节就生成一个新包
+        },
+        vendor: {   // 抽离第三方插件
+          test: /[\\/]node_modules[\\/]/, // 指定是node_modules下的第三方包
+          chunks: 'initial',
+          name: 'vendor',  // 打包后的文件名，任意命名
+          priority: 10 // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+        },
+      }
+    },
+    minimizer: [
+      new UglifyJsPlugin({
+        exclude: /\.min\.js$/,
+        cache: true,
+        parallel: true, // 开启并行压缩，充分利用cpu
+        sourceMap: false,
+        extractComments: false, // 移除注释
+        uglifyOptions: {
+          compress: true
+        }
+      })
+    ]
+  },
   entry: {
-    path: resolve('/src/HelloWorld.vue'), // components.async
+    componentA: resolve('/src/views/component-a.vue'),
+    // path: resolve('/src/HelloWorld.vue'), // components.async
   },
   output: {
     path: resolve('/dist/'),
@@ -80,10 +112,10 @@ module.exports = {
       'process.env.NODE_ENV': '"production"'
     }),
     // UglifyJs do not support ES6+, you can also use babel-minify for better treeshaking: https://github.com/babel/minify
-    new webpack.optimize.UglifyJsPlugin({
-      compress: false,
-      sourceMap: true
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: false,
+    //   sourceMap: true
+    // }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
