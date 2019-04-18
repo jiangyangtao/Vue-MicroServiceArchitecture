@@ -25,6 +25,16 @@ module.exports = {
   },
   // add your custom rules here
   rules: {
+    'max-len': 'off',
+    'no-shadow': 'off',
+    'no-continue':'off',
+    'no-console': 'off',
+    'no-plusplus': 'off',
+    'guard-for-in': 'off',
+    'no-unused-vars':'off',
+    'no-underscore-dangle': 'off',
+    'import/no-unresolved': 'off',
+    'no-restricted-syntax': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       js: 'never',
@@ -40,6 +50,7 @@ module.exports = {
         'e' // for e.returnvalue
       ]
     }],
+    "linebreak-style": [0 ,"error", "windows"],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
       optionalDependencies: ['test/unit/index.js']

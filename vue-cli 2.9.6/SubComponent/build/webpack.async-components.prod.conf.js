@@ -3,7 +3,7 @@ const path = require('path');
 const utils = require('./utils');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+// const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -41,8 +41,7 @@ module.exports = {
     ]
   },
   entry: {
-    HelloWorld: resolve('/src/components/HelloWorld.vue'),
-    // path: resolve('/src/HelloWorld.vue'), // components.async
+    path: resolve('/src/components.install.js'),
   },
   output: {
     path: resolve('/static/'),
@@ -67,7 +66,7 @@ module.exports = {
           esModule: true, // vue-loader v13 更新 默认值为 true v12及之前版本为 false, 此项配置影响 vue 自身异步组件写法以及 webpack 打包结果
           loaders: utils.cssLoaders({
             sourceMap: true,
-            extract: false // css 不做提取
+            extract: true // css 不做提取
           }),
           transformToRequire: {
             video: 'src',
@@ -79,7 +78,15 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'css-loader',
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader"
+          }
+        ],
+        include: /node_modules/
       },
       {
         test: /\.js$/,
@@ -128,6 +135,6 @@ module.exports = {
         safe: true
       }
     }),
-    new VueLoaderPlugin()
+    // new VueLoaderPlugin()
   ]
 };
