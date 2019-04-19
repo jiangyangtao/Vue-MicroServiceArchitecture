@@ -1,4 +1,4 @@
-import component from '@/components/HelloWorld.Vue';
+import component from './components/HelloWorld.Vue';
 // import {
 //   Store,
 // } from 'portalmiddleware';

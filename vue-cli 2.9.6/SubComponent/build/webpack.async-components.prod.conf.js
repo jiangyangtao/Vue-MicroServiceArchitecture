@@ -3,7 +3,8 @@ const path = require('path');
 const utils = require('./utils');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-// const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const vuxLoader = require('vux-loader')
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -135,6 +136,6 @@ module.exports = {
         safe: true
       }
     }),
-    // new VueLoaderPlugin()
+    new VueLoaderPlugin()
   ]
 };
